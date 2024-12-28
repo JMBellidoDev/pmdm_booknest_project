@@ -80,8 +80,12 @@ class BookDao{
   Future<void> addBookToLibrary(Book book) async {
     final db = await instance.database;
 
-    var books = await db.query('books', where: 'title = ? AND authorNames = ?', whereArgs: [book.title, book.authorNames!.join(', ')]);
+    var books = await db.query(
+      'books', where: 'title = ? AND authorNames = ?', 
+      whereArgs: [book.title, book.authorNames!.join(', ')]
+    );
 
+    // Si no está incluido el libro en base de datos, se inserta
     if (books.isEmpty) {
       await db.insert(
         'books',
@@ -89,6 +93,7 @@ class BookDao{
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
+    // Si ya lo está, se actualiza porque se presupone que pertenece a la lista de deseados
     } else {
       await db.update(
         'books',

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import '../persistence/model/book.dart';
-import '../persistence/persistence/book_dao.dart';
+import '../persistence/dao/book_dao.dart';
 
 /// Clase que representa el cuerpo de la página de explorar
 class ExploreBody extends StatefulWidget {
