@@ -20,6 +20,9 @@ class Book {
   /// Lista de nombres de autores
   List<String>? authorNames;
 
+  /// Booleano que indica si el libro está en la lista de deseados
+  bool? isInWishlist;
+
   /// Constructor
   Book(
     this.id,
@@ -28,32 +31,67 @@ class Book {
     this.firstPublishYear,
     this.rating,
     this.authorNames,
+    this.isInWishlist,
   );
 
-  /// Método para obtener los datos de un libro a partir de un JSON
+  /// Método para obtener los datos de un libro a partir de un JSON.
+  /// Puede provenir tanto de base de datos como de API, por lo que se deben diferenciar los casos
   ///
-  /// Parámetros:
-  ///   - json: Mapa que actúa como JSON
+  /// Params:
+  ///   - json (Map<String, dynamic>): Mapa que actúa como JSON
+  /// 
+  /// Return:
+  ///   - Book: Libro generado
   Book.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? 0;
-    coverId = json['cover_i'];
-    title = json['title'];
-    firstPublishYear = json['first_publish_year'];
-    rating = (json['ratings_average'] as num?)?.toDouble();
-    authorNames = (json['author_name'] as List<dynamic>?)
-        ?.map((author) => author.toString())
-        .toList();
+
+    // Caso API
+    if (json.containsKey('cover_i')) {
+      id = null;
+      coverId = json['cover_i'];
+      title = json['title'];
+      firstPublishYear = json['first_publish_year'];
+      rating = (json['ratings_average'] as num?)?.toDouble();
+      authorNames = (json['author_name'] as List<dynamic>?)
+          ?.map((author) => author.toString())
+          .toList();
+      isInWishlist = false;
+
+    // Caso DB
+    } else {
+      id = json['id'] != null ? (json['id'] as int?) : null;
+      coverId = json['coverId'];
+      title = json['title'];
+      firstPublishYear = json['firstPublishYear'];
+      rating = (json['rating'] as num?)?.toDouble();
+      authorNames = json['authorNames']?.split(', ');
+      isInWishlist = (json['isInWishlist'] ?? 0) == 1;
+    }
   }
 
-  /// Método para convertir los datos del libro a JSON
-  Map<String, dynamic> toJson() {
+  /// Método que convierte el objeto en un mapa para poder trabajar con base de datos
+  /// 
+  /// Params:
+  /// 
+  /// Return:
+  ///   - Map<String, dynamic>: Mapa generado a partir del libro
+  Map<String, dynamic> toDBMap() {
+
     return {
       'id': id,
-      'cover_i': coverId,
+      'coverId': coverId,
       'title': title,
-      'first_publish_year': firstPublishYear,
-      'ratings_average': rating,
-      'author_name': authorNames?.join(', '),
+      'firstPublishYear': firstPublishYear,
+      'rating': rating,
+      'authorNames': authorNames?.join(', ') ?? '',
+      'isInWishlist': (isInWishlist ?? false) ? 1 : 0,
     };
+  }
+
+  /// Método toString
+  @override
+  String toString() {
+    return 'Book{id: $id, coverId: $coverId, title: $title, '
+        'firstPublishYear: $firstPublishYear, rating: $rating, '
+        'authorNames: ${authorNames?.join(", ")}}';
   }
 }

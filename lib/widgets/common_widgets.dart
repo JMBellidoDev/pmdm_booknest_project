@@ -41,6 +41,12 @@ class InkedDrawerText extends StatelessWidget {
   const InkedDrawerText({super.key, required this.url, required this.marked});
 
   /// Método que enlaza la entrada del drawer con su Widget en función de la URL aportada
+  /// 
+  /// Params:
+  ///   - url (String): URL hacia la que redireccionar la página
+  /// 
+  /// Return:
+  ///   - Widget: El widget a cargar
   Widget getPageWithUrl(String url) {
     switch (url) {
       case AppRoutes.home:
@@ -64,6 +70,12 @@ class InkedDrawerText extends StatelessWidget {
   }
 
   /// Método que obtiene el texto del drawer en función de la URL
+  /// 
+  /// Params:
+  ///   - url (String): URL hacia la que redireccionar la página
+  /// 
+  /// Return:
+  ///   - String: Texto del drawer relacionado con la URL
   String getDrawerText(String url) {
         switch (url) {
       case AppRoutes.home:
@@ -79,7 +91,7 @@ class InkedDrawerText extends StatelessWidget {
         return 'Mi biblioteca';
 
       case AppRoutes.wishlist:
-        return 'Lista de deseos';
+        return 'Libros deseados';
 
       default:
         return 'Presentación';
@@ -120,8 +132,10 @@ class InkedDrawerText extends StatelessWidget {
 /// Drawer personalizado de la aplicación
 class MenuDrawer extends StatelessWidget {
 
+  /// Enlace que debe ser marcado como la página actual
   final String markedLink;
 
+  /// Constructor
   const MenuDrawer({super.key, required this.markedLink});
 
   @override
@@ -180,6 +194,74 @@ class MenuDrawer extends StatelessWidget {
           )
         ],
       )
+    );
+  }
+}
+
+/// Widget para seleccionar el criterio de ordenación
+class SortSelector extends StatelessWidget {
+
+  /// Criterio seleccionado
+  final String selectedSort;
+
+  /// Función que se debe ejecutar al cambiar la ordenación
+  final Function(String) onSortChanged;
+
+  /// Constructor
+  const SortSelector({
+    super.key,
+    required this.selectedSort,
+    required this.onSortChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const Text(
+            'Ordenar por:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          DropdownButton<String>(
+            value: selectedSort,
+            onChanged: (value) {
+              if (value != null) {
+                onSortChanged(value);
+              }
+            },
+            items: [
+              DropdownMenuItem(
+                value: 'title_asc',
+                child: Text('   Título A-Z', style: Theme.of(context).textTheme.labelMedium),
+              ),
+              DropdownMenuItem(
+                value: 'title_desc',
+                child: Text('   Título Z-A', style: Theme.of(context).textTheme.labelMedium),
+              ),
+              DropdownMenuItem(
+                value: 'author_asc',
+                child: Text('   Autor A-Z', style: Theme.of(context).textTheme.labelMedium),
+              ),
+              DropdownMenuItem(
+                value: 'author_desc',
+                child: Text('   Autor Z-A', style: Theme.of(context).textTheme.labelMedium),
+              ),
+              DropdownMenuItem(
+                value: 'year_asc',
+                child: Text('   Más antiguos', style: Theme.of(context).textTheme.labelMedium),
+              ),
+              DropdownMenuItem(
+                value: 'year_desc',
+                child: Text('   Nuevos', style: Theme.of(context).textTheme.labelMedium),
+                
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
