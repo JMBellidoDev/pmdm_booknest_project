@@ -179,8 +179,6 @@ class _ExploreBodyState extends State<ExploreBody> {
     );
 
     bool wasAdded;
-    print(isInLibrary);
-    print(book.isInWishlist);
 
     // Si está en la biblioteca, se elimina
     if (isInLibrary) {
@@ -190,8 +188,6 @@ class _ExploreBodyState extends State<ExploreBody> {
     // Si no está en la biblioteca, se añade
     } else {
       await BookDao.instance.addBookToLibrary(book);
-      print('se está llamando aquí');
-      print(book.isInWishlist);
       wasAdded = true;
     }
 

@@ -130,7 +130,6 @@ class _LibraryBodyState extends State<LibraryBody> {
     super.dispose();
   }
 
-
   /// Construcción de la vista
   @override
   Widget build(BuildContext context) {
