@@ -18,6 +18,26 @@ class HomeApp extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
 
+          // Icono de la aplicación
+          Container(
+            height: 180,
+            width: 180,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.black12,
+                width: 3, 
+              ),
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/app-icon.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(height: 30,),
+
           // Texto principal
           Text('¡Bienvenido a tu Biblioteca Digital!',
             style: Theme.of(context).textTheme.titleMedium,
