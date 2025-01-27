@@ -71,8 +71,8 @@ final customizedLightTheme = ThemeData(
     labelSmall: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, color: secondaryColor),
     
     bodyLarge: GoogleFonts.poppins(fontSize: 18),
-    bodyMedium: GoogleFonts.poppins(fontSize: 16),
-    bodySmall: GoogleFonts.poppins(fontSize: 16),
+    bodyMedium: GoogleFonts.poppins(fontSize: 15),
+    bodySmall: GoogleFonts.poppins(fontSize: 14),
 
   ),
 
